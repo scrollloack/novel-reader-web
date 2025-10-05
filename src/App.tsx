@@ -94,6 +94,9 @@ const App = () => {
     const idx = folders.indexOf(selectedFolder)
     const prevIdx = (idx - 1 + folders.length) % folders.length
     setSelectedFolder(folders[prevIdx])
+
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleNext = () => {
@@ -101,6 +104,9 @@ const App = () => {
     const idx = folders.indexOf(selectedFolder)
     const nextIdx = (idx + 1) % folders.length
     setSelectedFolder(folders[nextIdx])
+
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   useEffect(() => {
@@ -163,9 +169,9 @@ const App = () => {
           </div>
         </header>
 
-        <main className="flex-grow flex justify-center items-start pt-20 sm:pt-24 px-2 sm:px-4">
+        <main className="flex-grow flex justify-center items-start pt-20 sm:pt-24 pb-20 sm:pb-24 px-2 sm:px-4">
           <div
-            className={`content-wrap pt-8 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily} text-base sm:text-lg md:text-xl`}
+            className={`content-wrap pt-8 pb-8 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily} text-base sm:text-lg md:text-xl`}
             style={{ fontFamily, fontSize: `${fontSize}px` }}
           >
             {content ? content : 'No content yet! Select the novel folder!'}
