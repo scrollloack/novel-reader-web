@@ -15,5 +15,9 @@ export default defineConfig({
       '@/store': resolve('src/store'),
       '@/utils': resolve('src/utils')
     }
+  },
+  server: {
+    host: '0.0.0.0', // This makes Vite listen on all network interfaces
+    port: 5173 // Or your desired port
   }
 })
