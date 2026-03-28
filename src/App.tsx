@@ -15,6 +15,7 @@ const store = createStore('posts-db', 'files')
 const App = () => {
   const [folders, setFolders] = useState<string[]>([])
   const [content, setContent] = useState<React.ReactNode | null>(null)
+  const [title, setTitle] = useState<React.ReactNode | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null)
   // Font state
@@ -48,9 +49,10 @@ const App = () => {
               const text = await file.text()
               const parsedText = JSON.parse(text)
               const content = parsedText.data.attributes.content
+              const title = parsedText.data.attributes.title
 
               const key = `posts/${cleanFolder}`
-              await set(key, content, store)
+              await set(key, { content, title }, store)
               // console.log(`✅ Stored: ${key}`)
               // console.log(`✅ StoredData: ${content}`)
             }
@@ -75,12 +77,13 @@ const App = () => {
     try {
       const cleanFolder = normalizeName(contentFolder)
       const key = `posts/${cleanFolder}`
-      const text = await get(key, store)
+      const { content, title } = await get(key, store)
 
-      if (!text) throw new Error(`File not found: ${key}`)
+      if (!content) throw new Error(`File not found: ${key}`)
 
       // Parse HTML string into React nodes
-      setContent(parse(text))
+      setTitle(parse(title))
+      setContent(parse(content))
 
       // setSelectedFolder(contentFolder)
     } catch (err) {
@@ -169,7 +172,10 @@ const App = () => {
           </div>
         </header>
 
-        <main className="flex-grow flex justify-center items-start pt-20 sm:pt-24 pb-20 sm:pb-24 px-2 sm:px-4">
+        <main className="flex flex-col justify-center items-center pt-20 sm:pt-24 pb-20 sm:pb-24 px-2 sm:px-4">
+          <div className="title pt-4 pb-4 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily} text-base sm:text-lg md:text-xl">
+            {title ? title : ''}
+          </div>
           <div
             className={`content-wrap pt-8 pb-8 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily} text-base sm:text-lg md:text-xl`}
             style={{ fontFamily, fontSize: `${fontSize}px` }}
