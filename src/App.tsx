@@ -111,52 +111,68 @@ const App = () => {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="flex flex-col min-h-screen">
-        <div className="nav-bar bg-white dark:bg-gray-800 fixed top-0 left-0 right-0 z-50 p-2 flex flex-row justify-between">
-          <ModeToggle />
-          <span
-            className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-            onClick={handlePrev}
-          >
-            <ChevronLeft />
-          </span>
-          {loading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : folders.length > 0 ? (
-            <ContentSelection
-              folders={folders}
-              selectedFolder={selectedFolder}
-              onSelectFolder={setSelectedFolder}
-            />
-          ) : (
-            <button className="cursor-pointer" onClick={pickAndCopy}>
-              Select Folder
-            </button>
-          )}
-          <span
-            className="px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-            onClick={handleNext}
-          >
-            <ChevronRight />
-          </span>
-          <SettingsToggle
-            fontFamily={fontFamily}
-            setFontFamily={setFontFamily}
-            fontSize={fontSize}
-            setFontSize={setFontSize}
-          />
-        </div>
+      <div className="flex flex-col h-screen bg-background text-foreground">
+        <header className="nav-bar bg-white dark:bg-gray-800 fixed top-0 left-0 right-0 z-50 p-2 flex items-center gap-2">
+          <div className="flex items-center">
+            <ModeToggle />
+          </div>
 
-        <main className="flex-grow flex justify-center items-start pt-16">
+          {/* Prev button */}
+          <div className="flex items-center justify-center space-x-2 flex-1 max-w-md mx-auto">
+            <button
+              className="flex-shrink-0 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+              onClick={handlePrev}
+            >
+              <ChevronLeft />
+            </button>
+
+            {/* Center Select (flex-grow + truncate) */}
+            <div className="truncate max-w-[160px] text-center text-sm font-medium">
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : folders.length > 0 ? (
+                <ContentSelection
+                  folders={folders}
+                  selectedFolder={selectedFolder}
+                  onSelectFolder={setSelectedFolder}
+                />
+              ) : (
+                <button className="cursor-pointer" onClick={pickAndCopy}>
+                  Select Folder
+                </button>
+              )}
+            </div>
+
+            {/* Next button */}
+            <button
+              className="flex-shrink-0 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+              onClick={handleNext}
+            >
+              <ChevronRight />
+            </button>
+          </div>
+
+          <div className="flex items-center">
+            {/* Settings */}
+            <SettingsToggle
+              fontFamily={fontFamily}
+              setFontFamily={setFontFamily}
+              fontSize={fontSize}
+              setFontSize={setFontSize}
+            />
+          </div>
+        </header>
+
+        <main className="flex-grow flex justify-center items-start pt-20 sm:pt-24 px-2 sm:px-4">
           <div
-            className={`content-wrap pt-8 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily}`}
+            className={`content-wrap pt-8 pl-6 pr-6 space-y-4 text-left lg:max-w-[980px] font-${fontFamily} text-base sm:text-lg md:text-xl`}
             style={{ fontFamily, fontSize: `${fontSize}px` }}
           >
             {content ? content : 'No content yet! Select the novel folder!'}
           </div>
         </main>
 
-        <footer className="mt-auto flex justify-center items-center py-4 bg-gray-100 dark:bg-gray-900">
+        <footer className="mt-auto flex-shrink-0 flex justify-center items-center py-4 bg-gray-100 dark:bg-gray-900">
           &copy; Novel Reader {currentYear}
         </footer>
       </div>

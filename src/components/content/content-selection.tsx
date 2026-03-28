@@ -28,12 +28,16 @@ const ContentSelection: React.FC<ContentSelectionProps> = ({
       }}
       value={selectedFolder ? normalizeName(selectedFolder) : undefined}
     >
-      <SelectTrigger className="w-[220px] cursor-pointer">
-        <SelectValue placeholder="Select a chapter" />
+      <SelectTrigger className="w-full cursor-pointer truncate">
+        <SelectValue placeholder="Select a chapter" className="truncate" />
       </SelectTrigger>
       <SelectContent>
         {folders.map((f) => (
-          <SelectItem className="cursor-pointer" key={normalizeName(f)} value={normalizeName(f)}>
+          <SelectItem
+            className="cursor-pointer truncate max-w-[250px]" // limit width inside dropdown
+            key={normalizeName(f)}
+            value={normalizeName(f)}
+          >
             {f}
           </SelectItem>
         ))}
